@@ -1,0 +1,78 @@
+--Ejercicio 1
+use Tarea8
+db.createCollection("movieDetails")
+mongoimport --db=Tarea8 --collection=movieDetails --file=C:\Users\tomas\Desktop\movieDetails.json --jsonArray
+
+--Ejercicio2
+db.movieDetails.insert(
+{
+    "title":"Schindler's List",
+    "year":1993,
+    "genres":["Drama","War"],
+    "director":"Steven Spielberg",
+    "actors":["Ben Kingsley","Ralph Fiennes", "Caroline Goodall", "Jonathan Sagall",
+    "Embeth Davidtz"]
+}
+)
+
+--Ejercicio 3
+db.movieDetails.find({title:"Schindler's List"}).pretty()
+db.movieDetails.update(
+{
+        "_id" : ObjectId("60bfb2b1183820d84b526f6b"),
+        "title" : "Schindler's List",
+        "year" : 1993,
+        "genres" : [
+                "Drama",
+                "War"
+        ],
+        "director" : "Steven Spielberg",
+        "actors" : [
+                "Ben Kingsley",
+                "Ralph Fiennes",
+                "Caroline Goodall",
+                "Jonathan Sagall",
+                "Embeth Davidtz"
+        ]
+        "awards":{
+    "wins":7,
+    "nominations":12,
+    "text":"Oscar"
+}
+}
+)
+
+--Ejercicio 4 Esta consulta no funciona en la terminal, pero en la App Compass me funciona asi:  {runtime: {$gt:500}}
+
+db.movieDetails.find(
+    {runtime: {$gt:500}}
+)
+
+--Ejercicio 5 En compass me funciona: {genres:["Comedy"]}
+
+db.movieDetails.find({genres:["Comedy"]})
+
+--Ejercicio 6 
+db.movieDetails.update(
+    {_id: ObjectId("5db32f724519878fbdfceb48")},
+    {$addToSet:{countries:"Spain"}}
+)
+
+--Ejercicio 7
+db.movieDetails.update(
+    {title: "Schindler's List"},
+    {$push:{actors:"Liam Neeson",$position 0}}
+)
+
+--Ejercicio 8 En Compass funciona asi {$and:[{genres:"Animation"},{runtime: {$gt:100}}]}
+db.movieDetails.find(
+    {$and:[{genres:"Animation"},{runtime: {$gt:100}}]}
+)
+
+--Ejercicio 9
+db.movieDetails.deleteMany(
+    {genres:"Documentary"}
+)
+
+--Ejercicio 10
+ mongoexport --collection=movieDetails --db=Tarea8 --out=c://Escritorio/movies.json
